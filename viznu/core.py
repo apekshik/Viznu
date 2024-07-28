@@ -55,20 +55,46 @@ class Viznu:
             print(f"No validation data found at {validation_path}")
 
     # INFO PRINTING METHODS START HERE. 
-    def infoFor(self, data_type: str = 'all'):
-        if data_type == 'train' or data_type == 'all': 
-            self._print_info('Train', self.train_data)
+    def info(self):
+        """
+        Prints high-level information about the loaded datasets.
+        """
+        print("Datasets loaded:")
+        if self.train_data is not None:
+            print("- Train dataset loaded. Sample from train data:")
+            print(self.train_data.head())
+            print("Shape of train table: ", self.train_data.shape)
+        else:
+            print("- Train dataset not loaded")
+
+        if self.test_data is not None:
+            print("- Test dataset loaded. Sample from test data:")
+            print(self.test_data.head())
+            print("Shape of test table: ", self.test_data.shape)
+        else:
+            print("- Test dataset not loaded")
+
+        if self.validation_data is not None:
+            print("- Validation dataset loaded. Sample from validation data:")
+            print(self.validation_data.head())
+            print("Shape of validation table: ", self.validation_data.shape)
+        else:
+            print("- Validation dataset not loaded")
+
+    def infoFor(self, data_type: str):
+        if data_type == 'train' or data_type == 'all':
+            self._print_shape_head_info('Train', self.train_data)
         
         if data_type == 'test' or data_type == 'all':
-            self._print_info('Test', self.test_data)
+            self._print_shape_head_info('Test', self.test_data)
 
         if data_type == 'validation' or data_type == 'all':
-            self._print_info('Validation', self.validation_data)
+            self._print_shape_head_info('Validation', self.validation_data)
 
         if data_type not in ['train', 'test', 'validation', 'all']:
             print("Invalid data type. Choose from 'train', 'test', 'validation', or 'all'.")
 
-    def _print_info(self, name: str, df: pd.DataFrame):
+    def _print_shape_head_info(self, name: str, df: pd.DataFrame):
         if df is not None:
             print(f"\n{name} Data Info:")
             print(f"Shape: {df.shape}")
@@ -79,35 +105,7 @@ class Viznu:
         else:
             print(f"\n{name} data not loaded.")
 
-    def plot_distribution(self, column: str, kind: str = 'box'):
-        if self.curr_dataset == 'train':
-            df = self.train_data
-        elif self.curr_dataset == 'test':
-            df = self.test_data
-        elif self.curr_dataset == 'validation':
-            df = self.validation_data
-        else:
-            print("Invalid data type. Choose from 'train', 'test', or 'validation'.")
-            return
-
-        if df is not None and column in df.columns:
-            plt.figure(figsize=(7, 4))
-            if kind == 'box':
-                sns.boxplot(x=df[column])
-            elif kind == 'hist':
-                sns.histplot(df[column], kde=True)
-            else:
-                print(f"Invalid plot kind: {kind}. Supported kinds: 'box', 'hist'.")
-                return
-
-            plt.title(f'Distribution of {column}')
-            plt.xlabel(column)
-            plt.ylabel('Frequency')
-            plt.show()
-        else:
-            print(f"Column {column} not found in the dataset or dataset is not loaded.")
-
-    def col_info(self, col: str):
+    def colInfo(self, col: str):
         if self.curr_dataset == 'train':
             df = self.train_data
         elif self.curr_dataset == 'test':
