@@ -40,17 +40,17 @@ class Viznu:
         validation_path = os.path.join(directory, 'validation.csv')
 
         if os.path.exists(train_path):
-            self.load_train_data(train_path)
+            self.loadTrainData(train_path)
         else:
             print(f"No training data found at {train_path}")
 
         if os.path.exists(test_path):
-            self.load_test_data(test_path)
+            self.loadTestData(test_path)
         else:
             print(f"No test data found at {test_path}")
 
         if os.path.exists(validation_path):
-            self.load_validation_data(validation_path)
+            self.loadValidationData(validation_path)
         else:
             print(f"No validation data found at {validation_path}")
 

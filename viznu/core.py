@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from IPython.display import display, HTML
 
 class Viznu:
     def __init__(self):
@@ -40,17 +41,17 @@ class Viznu:
         validation_path = os.path.join(directory, 'validation.csv')
 
         if os.path.exists(train_path):
-            self.load_train_data(train_path)
+            self.loadTrainData(train_path)
         else:
             print(f"No training data found at {train_path}")
 
         if os.path.exists(test_path):
-            self.load_test_data(test_path)
+            self.loadTestData(test_path)
         else:
             print(f"No test data found at {test_path}")
 
         if os.path.exists(validation_path):
-            self.load_validation_data(validation_path)
+            self.loadValidationData(validation_path)
         else:
             print(f"No validation data found at {validation_path}")
 
@@ -59,27 +60,26 @@ class Viznu:
         """
         Prints high-level information about the loaded datasets.
         """
-        print("Datasets loaded:")
+        print("Overall info on datasets loaded\n==========================\n")
         if self.train_data is not None:
-            print("- Train dataset loaded. Sample from train data:")
-            print(self.train_data.head())
-            print("Shape of train table: ", self.train_data.shape)
+            print("TRAIN Dataset (Rows, Cols) :", self.train_data.shape)
+            self._display_dataframe("Train dataset:", self.train_data.head())
         else:
-            print("- Train dataset not loaded")
+            print("No TRAIN Dataset.")
 
         if self.test_data is not None:
-            print("- Test dataset loaded. Sample from test data:")
-            print(self.test_data.head())
-            print("Shape of test table: ", self.test_data.shape)
+            print("TEST Dataset (Rows, Cols) :", self.test_data.shape)
+            self._display_dataframe("Test dataset:", self.test_data.head())
         else:
-            print("- Test dataset not loaded")
+            print("No TEST Dataset.")
 
         if self.validation_data is not None:
-            print("- Validation dataset loaded. Sample from validation data:")
-            print(self.validation_data.head())
-            print("Shape of validation table: ", self.validation_data.shape)
+            print("VALIDATION Dataset (Rows, Cols) :", self.validation_data.shape)
+            self._display_dataframe("Validation dataset:", self.validation_data.head())
         else:
-            print("- Validation dataset not loaded")
+            print("No VALIDATION Dataset.")
+        
+        print("==========================")
 
     def infoFor(self, data_type: str):
         if data_type == 'train' or data_type == 'all':
@@ -98,12 +98,14 @@ class Viznu:
         if df is not None:
             print(f"\n{name} Data Info:")
             print(f"Shape: {df.shape}")
-            print("\nHead:")
-            print(df.head())
+            self._display_dataframe(f"Head of {name} data:", df.head())
             print("\nInfo:")
-            df.info()
+            display(df.info())
         else:
             print(f"\n{name} data not loaded.")
+
+    def _display_dataframe(self, title: str, df: pd.DataFrame):
+        display(df)
 
     def colInfo(self, col: str):
         if self.curr_dataset == 'train':
@@ -122,9 +124,9 @@ class Viznu:
             print(f"Missing values: {df[col].isnull().sum()}")
             print(f"\nBasic Statistics:")
             if pd.api.types.is_numeric_dtype(df[col]):
-                print(df[col].describe())
+                display(df[col].describe())
             else:
-                print(df[col].value_counts())
+                display(df[col].value_counts())
 
             plt.figure(figsize=(10, 6))
             if pd.api.types.is_numeric_dtype(df[col]):
@@ -140,7 +142,8 @@ class Viznu:
 
 # Example usage:
 # viz = Viznu()
-# viz.load_all("./datasets")
-# viz.info_on('train')
+# viz.loadAll("./datasets")
+# viz.info()
+# viz.infoFor('train')
 # viz.plot_distribution('Annual_Premium')
-# viz.col_info('Annual_Premium')
+# viz.colInfo('Annual_Premium')

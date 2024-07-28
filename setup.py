@@ -7,7 +7,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='viznu',
-    version='0.2.2',
+    version='0.2.4',
     packages=find_packages(),
     install_requires=[
         'pandas',
