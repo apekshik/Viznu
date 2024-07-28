@@ -83,18 +83,18 @@ class Viznu:
 
     def infoFor(self, data_type: str):
         if data_type == 'train' or data_type == 'all':
-            self._print_shape_head_info('Train', self.train_data)
+            self._printShapeHeadAndInfo('Train', self.train_data)
         
         if data_type == 'test' or data_type == 'all':
-            self._print_shape_head_info('Test', self.test_data)
+            self._printShapeHeadAndInfo('Test', self.test_data)
 
         if data_type == 'validation' or data_type == 'all':
-            self._print_shape_head_info('Validation', self.validation_data)
+            self._printShapeHeadAndInfo('Validation', self.validation_data)
 
         if data_type not in ['train', 'test', 'validation', 'all']:
             print("Invalid data type. Choose from 'train', 'test', 'validation', or 'all'.")
 
-    def _print_shape_head_info(self, name: str, df: pd.DataFrame):
+    def _printShapeHeadAndInfo(self, name: str, df: pd.DataFrame):
         if df is not None:
             print(f"\n{name} Data Info:")
             print(f"Shape: {df.shape}")

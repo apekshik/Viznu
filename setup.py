@@ -2,9 +2,12 @@
 
 from setuptools import setup, find_packages
 
+with open("README.md", "r") as f: 
+    description = f.read() 
+
 setup(
     name='viznu',
-    version='0.2',
+    version='0.2.1',
     packages=find_packages(),
     install_requires=[
         'pandas',
@@ -13,11 +16,12 @@ setup(
     ],
     author='Apekshik Panigrahi',
     author_email='apekshik@gmail.com',
-    description='A simple and intuitive library for data visualization and preprocessing for ML and DL applications',
-    url='https://github.com/yourusername/viznu',
+    url='https://github.com/apekshik/viznu',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
+    long_description=description,
+    long_description_content_type="text/markdown",
 )
