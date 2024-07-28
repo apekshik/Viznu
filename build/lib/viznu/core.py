@@ -1,61 +1,29 @@
-import os
+# viznu/core.py
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 class Viznu:
     def __init__(self):
-        self.dataset_types = ["train", "test", "val"]
         self.train_data = None
         self.test_data = None
         self.validation_data = None
         self.curr_dataset = "train"
-    
-    def setCurrentDatasetTo(self, type: str): 
-        if type not in self.dataset_types:
-            print("Tried to set INVALID dataset type. Check type input into method.")
-        else: 
-            self.curr_dataset = type
 
-    # LOAD DATA METHODS START HERE
-    def loadTrainData(self, path: str):
+    def load_train_data(self, path: str):
         self.train_data = pd.read_csv(path)
         print(f"Training data loaded from {path}")
 
-    def loadTestData(self, path: str):
+    def load_test_data(self, path: str):
         self.test_data = pd.read_csv(path)
         print(f"Test data loaded from {path}")
 
-    def loadValidationData(self, path: str):
+    def load_validation_data(self, path: str):
         self.validation_data = pd.read_csv(path)
         print(f"Validation data loaded from {path}")
 
-    def loadAll(self, directory: str = '.'):
-        """
-        Load train, test, and validation data files from the specified directory.
-        Assumes files are named as train.csv, test.csv, and validation.csv.
-        """
-        train_path = os.path.join(directory, 'train.csv')
-        test_path = os.path.join(directory, 'test.csv')
-        validation_path = os.path.join(directory, 'validation.csv')
-
-        if os.path.exists(train_path):
-            self.load_train_data(train_path)
-        else:
-            print(f"No training data found at {train_path}")
-
-        if os.path.exists(test_path):
-            self.load_test_data(test_path)
-        else:
-            print(f"No test data found at {test_path}")
-
-        if os.path.exists(validation_path):
-            self.load_validation_data(validation_path)
-        else:
-            print(f"No validation data found at {validation_path}")
-
-    # INFO PRINTING METHODS START HERE. 
-    def infoFor(self, data_type: str = 'all'):
+    def info_on(self, data_type: str = 'all'):
         if data_type == 'train' or data_type == 'all': 
             self._print_info('Train', self.train_data)
         
@@ -139,10 +107,3 @@ class Viznu:
             plt.show()
         else:
             print(f"Column {col} not found in the dataset or dataset is not loaded.")
-
-# Example usage:
-# viz = Viznu()
-# viz.load_all("./datasets")
-# viz.info_on('train')
-# viz.plot_distribution('Annual_Premium')
-# viz.col_info('Annual_Premium')
